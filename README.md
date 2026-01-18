@@ -163,6 +163,51 @@ timestamp 1234570000 and 1234572000 play 2x faster by halving the time
 differences between events.
 ```
 
+### Working with Large Files: TOON Format
+
+Since rrweb recording JSON files can be very large (often several MB), they may exceed LLM context limits or consume excessive tokens. A recommended approach is to convert the JSON to **[TOON format](https://github.com/toon-format/toon)** (Token-Oriented Object Notation), a compact and human-readable encoding optimized for LLMs, modify it, and convert it back to JSON.
+
+TOON achieves approximately **40% fewer tokens** than standard JSON while maintaining full lossless conversion, making it ideal for LLM processing of large recordings.
+
+#### Convert JSON to TOON:
+
+```bash
+npx @toon-format/cli public/recording.json -o recording.toon
+```
+
+#### Convert TOON back to JSON:
+
+```bash
+npx @toon-format/cli recording.toon -o public/recording.json
+```
+
+#### Benefits of TOON Format for LLM Processing
+
+- **Token efficient** - Reduces input size by ~40%, saving on LLM costs
+- **Human-readable** - Uses YAML-like indentation with CSV-style tables
+- **Lossless** - Preserves all JSON data perfectly
+- **Better for LLMs** - Higher accuracy in LLM processing (73.9% vs 70.7%)
+- **Easier editing** - More compact structure makes it easier to locate events
+
+**Example workflow:**
+```bash
+# Convert recording to TOON format
+npx @toon-format/cli public/recording.json -o recording.toon
+
+# Provide recording.toon to LLM with instructions like:
+# "Remove all events between lines 100-200 that contain sensitive data"
+
+# After LLM modifies the TOON file, convert back to JSON
+npx @toon-format/cli recording.toon -o public/recording.json
+```
+
+You can also pipe to stdin/stdout for processing:
+```bash
+cat recording.toon | npx @toon-format/cli > recording.json
+```
+
+Learn more: [TOON Format Documentation](https://toonformat.dev/cli/)
+
 ### Important Notes
 
 - Always backup your original recording before making LLM modifications
