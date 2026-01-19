@@ -208,6 +208,91 @@ cat recording.toon | npx @toon-format/cli > recording.json
 
 Learn more: [TOON Format Documentation](https://toonformat.dev/cli/)
 
+### Updating Demos for New Webapp Versions with Selenium
+
+When your web application gets updated and your existing rrweb demo recording becomes outdated, you can use [rrweb-browser-test](https://www.npmjs.com/package/rrweb-browser-test) to convert your recording into Selenium test scripts, update them for the new version, and re-record an updated demo.
+
+#### Step 1: Install rrweb-browser-test
+
+```bash
+npm install -g rrweb-browser-test
+```
+
+#### Step 2: Convert Recording to Selenium Tests
+
+Generate Selenium WebDriver test scripts from your existing rrweb recording:
+
+```bash
+rrweb-browser-test --input public/recording.json --output tests/ --framework selenium
+```
+
+This creates executable Selenium tests that replay the exact user interactions from your recording.
+
+#### Step 3: Update Tests with AI-Driven Locators
+
+**AI-driven locators are excellent for creating self-healing Selenium scripts** that automatically adapt when UI elements change between versions. Instead of brittle CSS selectors that break on every update, AI-powered locators can intelligently find elements even when their IDs, classes, or structure change.
+
+**Why AI Locators Matter:**
+- **Self-healing** - Tests automatically fix broken locators at runtime
+- **Reduced maintenance** - Up to 70% less test maintenance effort
+- **Version resilience** - Tests continue working across webapp updates
+- **Intelligent fallback** - AI finds alternative locators when primary ones fail
+
+**Popular AI Self-Healing Tools:**
+- [Healenium](https://github.com/healenium/healenium-web) - Open-source AI-powered self-healing for Selenium
+- [BrowserStack Self-Heal](https://www.browserstack.com/docs/automate-self-hosted/selenium/self-healing) - Automatic locator recovery
+- [Parasoft Selenic](https://www.parasoft.com/products/parasoft-selenic/) - AI-enhanced Selenium testing
+
+**Using AI Locators with LLMs:**
+
+Provide your updated webapp's HTML to an LLM (Claude, ChatGPT) with:
+
+```
+I need to update this Selenium test for a new version of my webapp.
+Please update the element locators to be more resilient using:
+- Semantic attributes (aria-labels, data-testid, roles)
+- Relative locators based on nearby elements
+- Text content or visible labels
+- Avoiding brittle generated IDs or classes
+
+Old test code: [paste Selenium test]
+New webapp HTML: [paste updated HTML structure]
+```
+
+The LLM will generate robust, self-healing locators that work across versions.
+
+**Learn more:** [AI-Driven Locators in Selenium: No More Broken Tests](https://vinayksharma.medium.com/ai-driven-locators-in-selenium-no-more-broken-tests-2f49a924bf51)
+
+#### Step 4: Run Updated Tests and Re-record
+
+```bash
+# Install Selenium WebDriver
+npm install selenium-webdriver
+
+# Run your updated tests
+node tests/updated-selenium-test.js
+
+# While the test runs, record it with the rrweb Chrome extension
+# This creates your updated demo recording for the new webapp version
+```
+
+#### Step 5: Replace Old Recording
+
+```bash
+# Save the new recording from Chrome extension downloads
+mv ~/Downloads/new-recording.json public/recording.json
+
+# Optionally, use an LLM to generate updated annotations
+```
+
+#### Benefits
+
+- **Automated demo updates** - Convert old recordings to maintainable test scripts
+- **Version tracking** - Keep different demos for different product versions
+- **Quality assurance** - Verify user flows still work after updates
+- **Self-healing** - AI locators reduce test breakage by 70%+
+- **LLM-assisted** - Get help modernizing locators and handling breaking changes
+
 ### Important Notes
 
 - Always backup your original recording before making LLM modifications
