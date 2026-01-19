@@ -212,6 +212,23 @@ Learn more: [TOON Format Documentation](https://toonformat.dev/cli/)
 
 When your web application gets updated and your existing rrweb demo recording becomes outdated, you can use [rrweb-browser-test](https://www.npmjs.com/package/rrweb-browser-test) to convert your recording into Selenium test scripts, update them for the new version, and re-record an updated demo.
 
+![Diagram](https://kroki.io/mermaid/svg/eNrVk78OgkAMh3efoonzQUh0MQYDrLhI4kIYAHtyBu9I7wRNeHj5p6-g16VNp-9LfwW4Ut5UEJ_A5lrNLUgTrFGKxx2SkkRjMmDM7_Vn2QlTAVGHBeDToNRCyR7CdFm1KI12blrJ7Lce4YQdx8cRk_LSDJygaF-Q60-srCDVaSRmUJsegj-9x-wxEbtErbig6iFKz-OQWZSrCJgziByGrFj9H9bX4qHNq8Yh9VzU9W6NHt9ybq9HuHhwzjfo2esRfT3Gi8AbWXn--w==)
+
+<!--
+  graph LR                                                                                                                                                                                             
+      A[Selenium Script] \-\-\>|selenium with rrweb extension| B[rrweb events.json]                                                                                                                       
+      B \-\-\>|LLM extraction or<br/>rrweb-browser-test| A                                                                                                                                                
+      B \-\-\>|rrweb/rrvideo| C[Video]                                                                                                                                                                    
+      C -.->|?| B                                                                                                                                                                                      
+                                                                                                                                                                                                       
+      style A fill:#e1f5ff                                                                                                                                                                             
+      style B fill:#fff4e1                                                                                                                                                                             
+      style C fill:#ffe1f5 
+-->
+
+[Edit this diagram](https://niolesk.top/#https://kroki.io/mermaid/svg/eNrVk78OgkAMh3efoonzQUh0MQYDrLhI4kIYAHtyBu9I7wRNeHj5p6-g16VNp-9LfwW4Ut5UEJ_A5lrNLUgTrFGKxx2SkkRjMmDM7_Vn2QlTAVGHBeDToNRCyR7CdFm1KI12blrJ7Lce4YQdx8cRk_LSDJygaF-Q60-srCDVaSRmUJsegj-9x-wxEbtErbig6iFKz-OQWZSrCJgziByGrFj9H9bX4qHNq8Yh9VzU9W6NHt9ybq9HuHhwzjfo2esRfT3Gi8AbWXn--w==)
+
+
 #### Step 1: Install rrweb-browser-test
 
 ```bash
