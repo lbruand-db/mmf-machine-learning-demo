@@ -135,7 +135,7 @@ Page **Experiments** de MLflow. On retrouve l'expérience `sales_weekly_training
 
 ### Annotation: Comparaison de runs {#run-comparison}
 ---
-timestamp: 117000
+timestamp: 120000
 color: #9C27B0
 ---
 
