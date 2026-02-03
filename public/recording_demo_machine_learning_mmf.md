@@ -1,114 +1,247 @@
 ---
-version: 1.0.0
-title: Demo Machine Learning Pipeline - Many Model Forecasting
+version: 1
+title: Sales Forecast - Machine Learning Pipeline Demo (MMF)
 ---
 
-## Pipeline du modele
+## Section: Pipeline du modèle {#pipeline}
 
-### Jobs & Pipelines
-- timestamp: 1770144004119
-- color: #4CAF50
-- description: Vue d'ensemble des Jobs & Pipelines Databricks. On y voit les jobs "Sales Forecast Data Preparation" et "Sales Forecast Training".
+### Annotation: Vue d'ensemble des Jobs {#jobs-overview}
+---
+timestamp: 3200
+color: #4CAF50
+autopause: true
+---
 
-### Sales Forecast Data Preparation - Job
-- timestamp: 1770144007119
-- color: #2196F3
-- description: Ouverture du job "Sales Forecast Data Preparation" avec les details du job (ID, parametres, notifications, deploiement CI/CD).
+Vue d'ensemble de la page **Jobs & Pipelines** de Databricks. On y retrouve les différents jobs orchestrant le pipeline ML : *Sales Forecast Data Preparation* et *Sales Forecast Training*.
 
-### Lineage des tables
-- timestamp: 1770144017519
-- color: #2196F3
-- description: Visualisation du lineage : 4 tables upstream lues par le job et 1 table downstream ecrite (sales_data_for_forecast).
+### Annotation: Job de Préparation des Données {#data-prep-job}
+---
+timestamp: 5800
+color: #4CAF50
+---
 
-## Prep : construction de la donnee
+Ouverture du job **Sales Forecast Data Preparation**. Ce job est déclenché automatiquement par *Table Update* lorsqu'une des tables sources change (`dim_customer`, `dim_material`, `dim_sales_org`, `fact_sales_orders`). Il est connecté à Databricks Asset Bundles (repo GitHub `savencia-hub`).
 
-### Notebook Data Preparation
-- timestamp: 1770144025119
-- color: #FF9800
-- description: Ouverture du notebook "sales_data_for_forecast" montrant le code de preparation des donnees (setup, parametres, creation de la table prd_sales.gold.sales_data_for_forecast).
+## Section: Prep - Construction de la donnée {#prep}
 
-### Retour Jobs & Pipelines
-- timestamp: 1770144036619
-- color: #9E9E9E
-- description: Retour a la liste des Jobs & Pipelines pour naviguer vers le job d'entrainement.
+### Annotation: Notebook de Préparation {#prep-notebook}
+---
+timestamp: 8700
+color: #FF9800
+autopause: true
+---
 
-## Entrainement
+Ouverture du notebook de préparation des données (dernier run réussi). Le notebook effectue :
+1. **Lecture** des tables de faits (`fact_sales_orders`) et dimensions (`dim_customer`, `dim_material`, `dim_sales_org`)
+2. **Jointures** entre les 4 tables
+3. **Filtres** : exclusion des clients intra-groupe (code `ZCD4`)
+4. **Agrégation** par Date, Organisation commerciale et Produit
+5. **Sauvegarde** dans la table `prd_sales.gold.sales_data_for_forecast`
 
-### Sales Forecast Training - Job
-- timestamp: 1770144043719
-- color: #9C27B0
-- description: Ouverture du job "Sales Forecast Training" avec les parametres (catalog, model_frequency, model_name) et l'environnement sales_forecast_environment.
+### Annotation: Retour au Job de Préparation {#back-to-prep-job}
+---
+timestamp: 20000
+color: #FF9800
+---
 
-### Run details
-- timestamp: 1770144050419
-- color: #9C27B0
-- description: Selection d'un run specifique du job d'entrainement pour voir les details d'execution.
+Retour à la page du job de préparation avec l'historique des runs.
 
-### Notebook Many Model Framework
-- timestamp: 1770144058119
-- color: #E91E63
-- autopause: true
-- description: Notebook "Forecasting POC using Many Model Framework" - Entrainement avec MMF sur serverless compute utilisant des modeles locaux (StatsForecast). Configuration des modeles, preparation des donnees hebdomadaires, et execution via run_forecast.
+## Section: Entraînement {#training}
 
-## Metriques repertoriees
+### Annotation: Job d'Entraînement {#training-job}
+---
+timestamp: 29200
+color: #2196F3
+autopause: true
+---
 
-### MLflow Experiments
-- timestamp: 1770144086719
-- color: #FF5722
-- description: Navigation vers MLflow. Vue des Experiments, Models et Serving. Le modele "prd_sales.gold.sales_weekly_forecast_model_final" est visible.
+Ouverture du job **Sales Forecast Training**. Paramètres configurés : produit `ETORKI PORT 250G FAMILIAL X8 FR`, dates `2024-01-01` à `2025-09-01`, fréquence hebdomadaire (`W`), modèle enregistré dans `prd_sales.gold.sales_weekly_forecast_model_final`.
 
-### Evaluation et SMAPE
-- timestamp: 1770144099419
-- color: #FF5722
-- autopause: true
-- description: Visualisation des metriques d'evaluation. SMAPE (Symmetric Mean Absolute Percentage Error) pour chaque modele et serie temporelle. Selection du meilleur modele base sur le score SMAPE le plus bas.
+### Annotation: Notebook d'Entraînement MMF {#training-notebook}
+---
+timestamp: 33600
+color: #2196F3
+autopause: true
+---
 
-### Enregistrement du modele
-- timestamp: 1770144112519
-- color: #795548
-- description: Code d'enregistrement du modele dans Unity Catalog via MLflow. Wrapper PythonModel personnalise (StatsForecastModelWrapper) pour le deploiement. Message "Model registered in Unity Catalog - You can now deploy this model to Model Serving".
+Notebook **Forecasting POC using Many Model Framework** (MMF). Ce notebook utilise l'accélérateur Databricks *Many Model Forecasting* pour entraîner et évaluer plusieurs modèles de prévision en parallèle sur compute serverless.
 
-## Deploiement / Model Serving
+### Annotation: Données d'entraînement {#training-data}
+---
+timestamp: 40400
+color: #2196F3
+---
 
-### Serving Endpoints
-- timestamp: 1770144148919
-- color: #00BCD4
-- description: Page des Serving Endpoints sur Databricks. Liste des endpoints disponibles.
+Création de la table d'entraînement hebdomadaire via SQL : agrégation des ventes par semaine pour le produit sélectionné. On obtient **87 semaines** de données historiques.
 
-### Endpoint weekly_forecast
-- timestamp: 1770144151219
-- color: #00BCD4
-- autopause: true
-- description: Details de l'endpoint "weekly_forecast" - URL d'invocation, Version 2, tables de lineage (system.serving.endpoint_usage, system.serving.served_entities). Endpoint compatible OpenAI spec.
+### Annotation: Sélection des modèles {#model-selection}
+---
+timestamp: 44100
+color: #2196F3
+---
 
-## Documentation Swagger
+Liste des modèles actifs pour l'entraînement :
+- `StatsForecastBaselineWindowAverage`
+- `StatsForecastBaselineSeasonalWindowAverage`
+- `StatsForecastBaselineNaive`
+- `StatsForecastBaselineSeasonalNaive`
+- `StatsForecastAutoArima`
 
-### Notebook OpenAPI Swagger
-- timestamp: 1770144170319
-- color: #3F51B5
-- autopause: true
-- description: Notebook "openapi_swagger" - Documentation et demo de l'API REST du Model Serving. Recuperation de la specification OpenAPI 3.0 de l'endpoint, affichage du schema de requete/reponse.
+D'autres modèles sont disponibles mais commentés (AutoETS, AutoTheta, Prophet, etc.).
 
-### Generation Swagger UI
-- timestamp: 1770144182319
-- color: #3F51B5
-- description: Generation du HTML Swagger UI interactif ("Savencia Sales Forecast API") avec swagger-ui-dist. Sauvegarde du fichier swagger_forecast_api.html pour documentation interactive de l'API.
+### Annotation: Lancement de l'entraînement {#run-forecast}
+---
+timestamp: 45700
+color: #2196F3
+---
 
-## Consommation Genie Space
+Appel de `run_forecast()` avec les paramètres : horizon de prédiction de 3 semaines, 10 fenêtres de backtest, métrique SMAPE, enregistrement dans MLflow.
 
-### Navigation Genie
-- timestamp: 1770144195919
-- color: #4CAF50
-- description: Navigation vers l'espace Genie "sales prediction genie". Questions suggerees sur la distribution des ventes, les series temporelles, et les predictions.
+## Section: Métriques répertoriées {#metrics}
 
-### Genie Space - sales prediction genie
-- timestamp: 1770144198419
-- color: #4CAF50
-- autopause: true
-- description: Espace Genie "sales prediction genie" connecte a la table prd_sales.gold.sales_overall. Questions suggerees : distribution des ventes par origine (Train vs Predict), statistiques, series temporelles hebdomadaires.
+### Annotation: Résultats d'évaluation {#evaluation-results}
+---
+timestamp: 59100
+color: #9C27B0
+autopause: true
+---
 
-### Question en langage naturel
-- timestamp: 1770144206819
-- color: #8BC34A
-- autopause: true
-- description: L'utilisateur pose une question en langage naturel : "Please show a graphic with sales for product Etorki and the prediction from the model, on a line plot". Genie genere la requete SQL et affiche les tendances de ventes avec predictions.
+Table des résultats d'évaluation (`sales_weekly_evaluation_output`) : pour chaque modèle et fenêtre de backtest, on voit la métrique **SMAPE**, les valeurs prédites vs réelles, et le pickle du modèle.
+
+### Annotation: Meilleur modèle et scoring {#best-model}
+---
+timestamp: 73300
+color: #9C27B0
+---
+
+Sélection du **meilleur modèle** par SMAPE moyen. Affichage des prédictions de scoring (`sales_weekly_scoring_output`) pour les 3 prochaines semaines.
+
+### Annotation: Enregistrement MLflow {#mlflow-logging}
+---
+timestamp: 79500
+color: #9C27B0
+---
+
+Packaging du modèle dans un wrapper `StatsForecastModelWrapper` (compatible MLflow pyfunc). Log du modèle, des métriques (best_smape), des paramètres, et des artefacts (histogramme de variation, graphique de prédiction avec intervalle de confiance Monte Carlo) dans MLflow. Enregistrement dans Unity Catalog.
+
+### Annotation: Expériences MLflow {#mlflow-experiments}
+---
+timestamp: 107200
+color: #9C27B0
+autopause: true
+---
+
+Page **Experiments** de MLflow. On retrouve l'expérience `sales_weekly_training_final` avec les différents runs d'entraînement.
+
+### Annotation: Comparaison de runs {#run-comparison}
+---
+timestamp: 115000
+color: #9C27B0
+---
+
+Comparaison de 2 runs MLflow :
+- **StatsForecastAutoArima** : SMAPE = 0.077 (end_date: 2025-08-01)
+- **StatsForecastBaselineSeasonalWindowAverage** : SMAPE = 0.032 (end_date: 2025-09-01)
+
+Visualisation via Parallel Coordinates Plot et Scatter Plot.
+
+## Section: Déploiement / Model Serving {#deployment}
+
+### Annotation: Endpoints de Serving {#serving-endpoints}
+---
+timestamp: 128700
+color: #E91E63
+autopause: true
+---
+
+Page **Serving endpoints** : liste des endpoints disponibles. L'endpoint `weekly_forecast` est en statut **Ready** (version 2), créé par Lucas Bruand.
+
+### Annotation: Création d'un endpoint {#create-endpoint}
+---
+timestamp: 130900
+color: #E91E63
+---
+
+Démonstration du flux de création d'un endpoint de serving. Sélection du modèle `prd_sales.gold.sales_weekly_forecast_model_final` depuis Unity Catalog. Configuration : compute Custom avec scale-to-zero, 0-4 concurrency.
+
+### Annotation: Détails de l'endpoint {#endpoint-details}
+---
+timestamp: 148900
+color: #E91E63
+---
+
+Dashboard de l'endpoint `weekly_forecast` : métriques de latence (p50, p99), taux de requêtes (QPS), erreurs (4XX/5XX), utilisation CPU et mémoire. URL de l'endpoint : `https://...databricks.com/serving-endpoints/weekly_forecast/invocations`.
+
+### Annotation: OpenAI Spec - Query endpoint {#query-endpoint}
+---
+timestamp: 152000
+color: #E91E63
+---
+
+Interface de test de l'endpoint directement depuis le navigateur (Browser/Python).
+
+## Section: Documentation Swagger {#swagger}
+
+### Annotation: Notebook OpenAPI/Swagger {#swagger-notebook}
+---
+timestamp: 172100
+color: #FF5722
+autopause: true
+---
+
+Notebook **openapi_swagger** démontrant l'intégration API du Model Serving :
+1. **Configuration** du endpoint `weekly_forecast`
+2. **Authentification** (PAT, OAuth 2.0, Service Principal)
+3. **Spécification OpenAPI 3.0** générée automatiquement par l'endpoint
+4. **Export** du spec JSON pour Swagger UI / Postman
+5. **Documentation interactive** HTML via Swagger UI
+6. **Démo d'appel API** pour l'inférence
+7. **Exemple cURL** pour accès externe
+8. **Référence API** complète (endpoints, authentification, liens)
+
+## Section: Consommation Genie Space {#genie}
+
+### Annotation: Liste des Genie Spaces {#genie-list}
+---
+timestamp: 201100
+color: #00BCD4
+autopause: true
+---
+
+Page **Genie** : interface de requêtes en langage naturel sur les données. Plusieurs espaces disponibles dont `sales prediction genie`.
+
+### Annotation: Genie Space - Sales Prediction {#genie-space}
+---
+timestamp: 202600
+color: #00BCD4
+---
+
+Ouverture du Genie Space **sales prediction genie**. Tables connectées : `sales_overall` et `mapping_timeseries_id_product` (schéma `prd_sales.gold`). Questions suggérées disponibles.
+
+### Annotation: Requête en langage naturel {#genie-query}
+---
+timestamp: 209800
+color: #00BCD4
+autopause: true
+---
+
+Requête utilisateur : *"Please show a graphic with sales for product Etorki and the prediction from the model, on a line plot. Please differentiate colors for train (actual) and predict."*
+
+Genie recherche les données pertinentes, génère une requête SQL avec jointure entre `sales_overall` et `mapping_timeseries_id_product`, et exécute la requête.
+
+### Annotation: Résultats Genie {#genie-results}
+---
+timestamp: 218700
+color: #00BCD4
+---
+
+Genie affiche un **graphique linéaire** avec les ventes historiques (Train) et les prédictions du modèle (Predict) pour le produit ETORKI. Le code SQL généré est visible et vérifiable. Les valeurs prédites (~1.05K-1.15K) prolongent la série temporelle historique.
+
+### Annotation: Fin de la démo {#end}
+---
+timestamp: 230000
+color: #E91E63
+autopause: true
+---
+
+Fin de la démonstration du pipeline ML complet : de la préparation des données à la consommation via Genie, en passant par l'entraînement, le suivi des métriques, le déploiement et la documentation API.
