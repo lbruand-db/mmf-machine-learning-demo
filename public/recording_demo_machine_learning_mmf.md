@@ -203,7 +203,7 @@ Notebook **openapi_swagger** démontrant l'intégration API du Model Serving :
 
 ### Annotation: Liste des Genie Spaces {#genie-list}
 ---
-timestamp: 201100
+timestamp: 203100
 color: #00BCD4
 autopause: true
 ---
