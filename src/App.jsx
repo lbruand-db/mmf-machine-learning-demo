@@ -5,8 +5,8 @@ function App() {
   return (
     <div className="App" style={{ width: '100vw', height: '100vh', margin: 0, padding: 0 }}>
       <RrwebPlayer
-          recordingUrl="recording_jupyterlite.json"
-          annotationsUrl="recording_jupyterlite.annotations.md" />
+          recordingUrl="recording_demo_machine_learning_mmf.json"
+          annotationsUrl="recording_demo_machine_learning_mmf.md" />
     </div>
   )
 }
