@@ -7,7 +7,7 @@ title: Sales Forecast - Machine Learning Pipeline Demo (MMF)
 
 ### Annotation: Vue d'ensemble des Jobs {#jobs-overview}
 ---
-timestamp: 3200
+timestamp: 3900
 color: #4CAF50
 autopause: true
 ---
@@ -16,7 +16,7 @@ Vue d'ensemble de la page **Jobs & Pipelines** de Databricks. On y retrouve les 
 
 ### Annotation: Job de Préparation des Données {#data-prep-job}
 ---
-timestamp: 5800
+timestamp: 6800
 color: #4CAF50
 ---
 
@@ -26,7 +26,7 @@ Ouverture du job **Sales Forecast Data Preparation**. Ce job est déclenché aut
 
 ### Annotation: Notebook de Préparation {#prep-notebook}
 ---
-timestamp: 8700
+timestamp: 10400
 color: #FF9800
 autopause: true
 ---
@@ -59,7 +59,7 @@ Ouverture du job **Sales Forecast Training**. Paramètres configurés : produit 
 
 ### Annotation: Notebook d'Entraînement MMF {#training-notebook}
 ---
-timestamp: 33600
+timestamp: 37500
 color: #2196F3
 autopause: true
 ---
@@ -76,7 +76,7 @@ Création de la table d'entraînement hebdomadaire via SQL : agrégation des ven
 
 ### Annotation: Sélection des modèles {#model-selection}
 ---
-timestamp: 44100
+timestamp: 45700
 color: #2196F3
 ---
 
@@ -91,7 +91,7 @@ D'autres modèles sont disponibles mais commentés (AutoETS, AutoTheta, Prophet,
 
 ### Annotation: Lancement de l'entraînement {#run-forecast}
 ---
-timestamp: 45700
+timestamp: 54000
 color: #2196F3
 ---
 
@@ -101,7 +101,7 @@ Appel de `run_forecast()` avec les paramètres : horizon de prédiction de 3 sem
 
 ### Annotation: Résultats d'évaluation {#evaluation-results}
 ---
-timestamp: 59100
+timestamp: 63100
 color: #9C27B0
 autopause: true
 ---
@@ -126,7 +126,7 @@ Packaging du modèle dans un wrapper `StatsForecastModelWrapper` (compatible MLf
 
 ### Annotation: Expériences MLflow {#mlflow-experiments}
 ---
-timestamp: 107200
+timestamp: 104200
 color: #9C27B0
 autopause: true
 ---
@@ -135,7 +135,7 @@ Page **Experiments** de MLflow. On retrouve l'expérience `sales_weekly_training
 
 ### Annotation: Comparaison de runs {#run-comparison}
 ---
-timestamp: 115000
+timestamp: 117000
 color: #9C27B0
 ---
 
@@ -149,7 +149,7 @@ Visualisation via Parallel Coordinates Plot et Scatter Plot.
 
 ### Annotation: Endpoints de Serving {#serving-endpoints}
 ---
-timestamp: 128700
+timestamp: 130700
 color: #E91E63
 autopause: true
 ---
@@ -158,7 +158,7 @@ Page **Serving endpoints** : liste des endpoints disponibles. L'endpoint `weekly
 
 ### Annotation: Création d'un endpoint {#create-endpoint}
 ---
-timestamp: 130900
+timestamp: 134900
 color: #E91E63
 ---
 
@@ -166,7 +166,7 @@ Démonstration du flux de création d'un endpoint de serving. Sélection du mod�
 
 ### Annotation: Détails de l'endpoint {#endpoint-details}
 ---
-timestamp: 148900
+timestamp: 153000
 color: #E91E63
 ---
 
@@ -184,7 +184,7 @@ Interface de test de l'endpoint directement depuis le navigateur (Browser/Python
 
 ### Annotation: Notebook OpenAPI/Swagger {#swagger-notebook}
 ---
-timestamp: 172100
+timestamp: 174100
 color: #FF5722
 autopause: true
 ---
