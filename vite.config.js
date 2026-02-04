@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.BASE_URL || '/',
+  base: 'https://lbruand-db.github.io/mmf-machine-learning-demo/',
 })
