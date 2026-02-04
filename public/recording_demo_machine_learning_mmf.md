@@ -20,7 +20,7 @@ timestamp: 6800
 color: #4CAF50
 ---
 
-Ouverture du job **Sales Forecast Data Preparation**. Ce job est déclenché automatiquement par *Table Update* lorsqu'une des tables sources change (`dim_customer`, `dim_material`, `dim_sales_org`, `fact_sales_orders`). Il est connecté à Databricks Asset Bundles (repo GitHub `savencia-hub`).
+Ouverture du job **Sales Forecast Data Preparation**. Ce job est déclenché automatiquement par *Table Update* lorsqu'une des tables sources change (`dim_customer`, `dim_material`, `dim_sales_org`, `fact_sales_orders`). Il est connecté à Databricks Asset Bundles.
 
 ## Section: Prep - Construction de la donnée {#prep}
 
